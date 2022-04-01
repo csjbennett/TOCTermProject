@@ -41,14 +41,9 @@ public class Tile_Generator : MonoBehaviour
 
                     tiles[x, y] = choice;
 
-                    var newTile = Instantiate(templateTile, new Vector3(x, y, 0), Quaternion.identity, null).GetComponent<Tile_Script>();
-                    
-                    newTile.topColor = choice.topColor;
-                    newTile.bottomColor = choice.bottomColor;
-                    newTile.rightColor = choice.rightColor;
-                    newTile.leftColor = choice.leftColor;
+                    var newTile = Instantiate(templateTile, new Vector3(x, y, 0), Quaternion.identity, null);
 
-                    newTile.spr.sprite = choice.sprite;
+                    newTile.GetComponent<SpriteRenderer>().sprite = choice.sprite;
                 }
             }
         }
