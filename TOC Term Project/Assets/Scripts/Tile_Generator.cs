@@ -12,7 +12,12 @@ public class Tile_Generator : MonoBehaviour
     public Tile[] tileSet;
     // Template tile that is instantiated into the scene
     // and filled with data from tileSet
-    public GameObject templateTile;
+    public TileDebug templateTile;
+
+    private void Start()
+    {
+        GenerateTiles();
+    }
 
 
     private void Update()
@@ -73,6 +78,7 @@ public class Tile_Generator : MonoBehaviour
                             tiles[x, y] = choice;
                             var newTile = Instantiate(templateTile, new Vector3(x, y, 0), Quaternion.identity, null);
                             newTile.GetComponent<SpriteRenderer>().sprite = choice.sprite;
+                            newTile.populateTextElements(choice.leftColor, choice.topColor, choice.rightColor, choice.bottomColor);
                             // Sets a name for the tile for debugging
                             newTile.name = "Tile " + x.ToString() + ", " + y.ToString();
 
@@ -99,6 +105,7 @@ public class Tile_Generator : MonoBehaviour
                             var choice = tileSet[i];
                             tiles[x, y] = choice;
                             var newTile = Instantiate(templateTile, new Vector3(x, y, 0), Quaternion.identity, null);
+                            newTile.populateTextElements(choice.leftColor, choice.topColor, choice.rightColor, choice.bottomColor);
                             newTile.GetComponent<SpriteRenderer>().sprite = choice.sprite;
                             // Sets a name for the tile for debugging
                             newTile.name = "Tile " + x.ToString() + ", " + y.ToString();
@@ -127,6 +134,7 @@ public class Tile_Generator : MonoBehaviour
                             tiles[x, y] = choice;
                             var newTile = Instantiate(templateTile, new Vector3(x, y, 0), Quaternion.identity, null);
                             newTile.GetComponent<SpriteRenderer>().sprite = choice.sprite;
+                            newTile.populateTextElements(choice.leftColor, choice.topColor, choice.rightColor, choice.bottomColor);
                             // Sets a name for the tile for debugging
                             newTile.name = "Tile " + x.ToString() + ", " + y.ToString();
 
@@ -145,6 +153,7 @@ public class Tile_Generator : MonoBehaviour
                     tiles[x, y] = choice;
                     var newTile = Instantiate(templateTile, new Vector3(x, y, 0), Quaternion.identity, null);
                     newTile.GetComponent<SpriteRenderer>().sprite = choice.sprite;
+                    newTile.populateTextElements(choice.leftColor, choice.topColor, choice.rightColor, choice.bottomColor);
                     // Sets a name for the tile for debugging
                     newTile.name = "Tile " + x.ToString() + ", " + y.ToString();
                 }
