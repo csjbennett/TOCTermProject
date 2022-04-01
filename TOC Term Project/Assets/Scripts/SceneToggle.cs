@@ -18,4 +18,9 @@ public class SceneToggle : MonoBehaviour
             SceneManager.LoadScene(1);
         }
     }
+
+    public void onQuit()
+    {
+        Application.Quit();
+    }
 }
