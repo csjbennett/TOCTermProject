@@ -17,10 +17,16 @@ public class Tile_Generator : MonoBehaviour
     private void Start()
     {
         // Creates empty tiles in tile set to be filled with data from each of the template tiles
-        for (int i = 0; i < tileSet.Length; i++) { tileSet[i] = new Tile(); }
+        for (int i = 0; i < tileSet.Length; i++) { tileSet[i] = Tile.CreateInstance<Tile>(); }
 
         // Initializes tiles in tile set array
         FillTileInfo();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+            GenerateTiles();
     }
 
     public void GenerateTiles()
@@ -35,7 +41,7 @@ public class Tile_Generator : MonoBehaviour
         {
             for (int y = 0; y < grid.GetLength(1); y++)
             {
-                var initTile = tiles[x, y] = new Tile();
+                var initTile = tiles[x, y] = Tile.CreateInstance<Tile>();
                 initTile.topColor = 0;
                 initTile.bottomColor = 0;
                 initTile.rightColor = 0;
@@ -52,38 +58,96 @@ public class Tile_Generator : MonoBehaviour
                 // Generating a tile with two neighbors (both edges need to be checked)
                 if (x > 0 && y > 0)
                 {
+                    // The next tile's bottom and left colors must match the top and right edges of the previous tiles
+                    int right = tiles[x, y - 1].rightColor;
+                    int top = tiles[x - 1, y].topColor;
 
+
+                    for (int i = 0; i < tileSet.Length; i++)
+                    {
+                        if (tileSet[i].leftColor == right && tileSet[i].bottomColor == top)
+                        {
+                            // Assigns values from chosen tile to slot in 2D array and instantiates a tile
+                            var choice = tileSet[i];
+                            tiles[x, y] = choice;
+                            var newTile = Instantiate(templateTile, new Vector3(x, y, 0), Quaternion.identity, null);
+                            newTile.GetComponent<SpriteRenderer>().sprite = choice.sprite;
+
+                            // Jumps back to main nested for loop once tile is found
+                            goto Found;
+                        }
+                        else
+                            continue;
+                    }
                 }
                 // Generate bottom tile of a new column (only needs to check left edge)
                 else if (x > 0)
                 {
+                    // The next tile's left color must match the right edge of the previous tile
+                    int right = tiles[x - 1, 0].rightColor;
 
+                    for (int i = 0; i < tileSet.Length; i++)
+                    {
+                        if (tileSet[i].leftColor == right)
+                        {
+                            // Assigns values from chosen tile to slot in 2D array and instantiates a tile
+                            var choice = tileSet[i];
+                            tiles[x, y] = choice;
+                            var newTile = Instantiate(templateTile, new Vector3(x, y, 0), Quaternion.identity, null);
+                            newTile.GetComponent<SpriteRenderer>().sprite = choice.sprite;
+
+                            // Jumps back to main nested for loop once tile is found
+                            goto Found;
+                        }
+                        else
+                            continue;
+                    }
                 }
                 // Generate tile in first column (after initial random tile)
                 else if (y > 0)
                 {
+                    // The next tile's bottom color must match the top edge of the previous tile
+                    int top = tiles[0, y - 1].topColor;
 
+                    for (int i = 0; i < tileSet.Length; i++)
+                    {
+                        if (tileSet[i].bottomColor == top)
+                        {
+                            // Assigns values from chosen tile to slot in 2D array and instantiates a tile
+                            var choice = tileSet[i];
+                            tiles[x, y] = choice;
+                            var newTile = Instantiate(templateTile, new Vector3(x, y, 0), Quaternion.identity, null);
+                            newTile.GetComponent<SpriteRenderer>().sprite = choice.sprite;
+
+                            // Jumps back to main nested for loop once tile is found
+                            goto Found;
+                        }
+                        else
+                            continue;
+                    }
                 }
                 // Randomly chooses the first tile
                 else
                 {
+                    // Assigns values from chosen tile to slot in 2D array and instantiates a tile
                     var choice = tileSet[Random.Range(0, tileSet.GetLength(0))];
-
                     tiles[x, y] = choice;
-
                     var newTile = Instantiate(templateTile, new Vector3(x, y, 0), Quaternion.identity, null);
-
                     newTile.GetComponent<SpriteRenderer>().sprite = choice.sprite;
                 }
+
+            // Code will jump here once a suitable tile is found
+            Found:
+                continue;
             }
         }
     }
 
     // This function initializes all tiles in the tile set array
-    public void FillTileInfo()
+    private void FillTileInfo()
     {
         // Tile 0
-        var tile0 = new Tile_0();
+        var tile0 = Tile.CreateInstance<Tile_0>();
         tileSet[0].topColor = tile0.GetTopColor();
         tileSet[0].bottomColor = tile0.GetBottomColor();
         tileSet[0].rightColor = tile0.GetRightColor();
@@ -91,7 +155,7 @@ public class Tile_Generator : MonoBehaviour
         tileSet[0].sprite = tile0.sprite;
 
         // Tile 1
-        var tile1 = new Tile_1();
+        var tile1 = Tile.CreateInstance<Tile_1>();
         tileSet[1].topColor = tile1.GetTopColor();
         tileSet[1].bottomColor = tile1.GetBottomColor();
         tileSet[1].rightColor = tile1.GetRightColor();
@@ -99,7 +163,7 @@ public class Tile_Generator : MonoBehaviour
         tileSet[1].sprite = tile1.sprite;
 
         // Tile 2
-        var tile2 = new Tile_2();
+        var tile2 = Tile.CreateInstance<Tile_2>();
         tileSet[2].topColor = tile2.GetTopColor();
         tileSet[2].bottomColor = tile2.GetBottomColor();
         tileSet[2].rightColor = tile2.GetRightColor();
@@ -107,7 +171,7 @@ public class Tile_Generator : MonoBehaviour
         tileSet[2].sprite = tile2.sprite;
 
         // Tile 3
-        var tile3 = new Tile_3();
+        var tile3 = Tile.CreateInstance<Tile_3>();
         tileSet[3].topColor = tile3.GetTopColor();
         tileSet[3].bottomColor = tile3.GetBottomColor();
         tileSet[3].rightColor = tile3.GetRightColor();
@@ -115,7 +179,7 @@ public class Tile_Generator : MonoBehaviour
         tileSet[3].sprite = tile3.sprite;
 
         // Tile 4
-        var tile4 = new Tile_4();
+        var tile4 = Tile.CreateInstance<Tile_4>();
         tileSet[4].topColor = tile4.GetTopColor();
         tileSet[4].bottomColor = tile4.GetBottomColor();
         tileSet[4].rightColor = tile4.GetRightColor();
@@ -123,7 +187,7 @@ public class Tile_Generator : MonoBehaviour
         tileSet[4].sprite = tile4.sprite;
 
         // Tile 5
-        var tile5 = new Tile_5();
+        var tile5 = Tile.CreateInstance<Tile_5>();
         tileSet[5].topColor = tile5.GetTopColor();
         tileSet[5].bottomColor = tile5.GetBottomColor();
         tileSet[5].rightColor = tile5.GetRightColor();
@@ -131,7 +195,7 @@ public class Tile_Generator : MonoBehaviour
         tileSet[5].sprite = tile5.sprite;
 
         // Tile 6
-        var tile6 = new Tile_6();
+        var tile6 = Tile.CreateInstance<Tile_6>();
         tileSet[6].topColor = tile6.GetTopColor();
         tileSet[6].bottomColor = tile6.GetBottomColor();
         tileSet[6].rightColor = tile6.GetRightColor();
@@ -139,7 +203,7 @@ public class Tile_Generator : MonoBehaviour
         tileSet[6].sprite = tile6.sprite;
 
         // Tile 7
-        var tile7 = new Tile_7();
+        var tile7 = Tile.CreateInstance<Tile_7>();
         tileSet[7].topColor = tile7.GetTopColor();
         tileSet[7].bottomColor = tile7.GetBottomColor();
         tileSet[7].rightColor = tile7.GetRightColor();
@@ -147,7 +211,7 @@ public class Tile_Generator : MonoBehaviour
         tileSet[7].sprite = tile7.sprite;
 
         // Tile 8
-        var tile8 = new Tile_8();
+        var tile8 = Tile.CreateInstance<Tile_8>();
         tileSet[8].topColor = tile8.GetTopColor();
         tileSet[8].bottomColor = tile8.GetBottomColor();
         tileSet[8].rightColor = tile8.GetRightColor();

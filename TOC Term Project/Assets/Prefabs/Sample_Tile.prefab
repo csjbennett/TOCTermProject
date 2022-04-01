@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5787500101868258273}
-  - component: {fileID: 4413441807981869696}
   - component: {fileID: 4301832796092782782}
   m_Layer: 0
   m_Name: Sample_Tile
@@ -32,23 +31,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4413441807981869696
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9161415854593477237}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d2d2102e4bbdfa48ab66fcd2d9fc6d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  topColor: 0
-  bottomColor: 0
-  rightColor: 0
-  leftColor: 0
-  spr: {fileID: 4301832796092782782}
 --- !u!212 &4301832796092782782
 SpriteRenderer:
   m_ObjectHideFlags: 0

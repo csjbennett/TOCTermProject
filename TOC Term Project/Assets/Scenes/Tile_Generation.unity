@@ -233,9 +233,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0bb4225bb8597f40a61239814f3cc21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xSize: 0
-  ySize: 0
-  tileSet: []
+  xSize: 25
+  ySize: 15
+  tileSet:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   templateTile: {fileID: 9161415854593477237, guid: ba7655c0d37e40f48b6084c173462395,
     type: 3}
 --- !u!4 &1873418984
